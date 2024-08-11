@@ -118,10 +118,10 @@ CEBOLLINO : ${culture}
 COUPE : N° ${coupe}
 SUPERFICIE : ${superficie}
 BRUT : ${brut}
-R.BRUT : ${rbrut.toFixed(2)}
+R.BRUT : *${rbrut.toFixed(2)} kg/h*
 FINI : ${fini}
-R.FINI : ${rFini.toFixed(2)}
-ÉCART : ${ecart.toFixed(2)}%
+R.FINI : *${rFini.toFixed(2)} kg/h*
+ÉCART : *${ecart.toFixed(2)}%*
             `.trim();
 
             const reportArea = document.getElementById('reportArea');
