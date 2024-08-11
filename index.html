@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saisie des Informations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            direction: ltr; /* Direction de texte de gauche à droite pour le français */
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input, select {
+            padding: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-top: 20px;
+            display: none;
+            white-space: pre-wrap;
+            font-family: monospace; /* Pour une meilleure lisibilité du texte formaté */
+        }
+        .button-container {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Saisie des Informations</h1>
+        <form id="infoForm">
+            <label for="date">DATE :</label>
+            <input type="date" id="date" name="date" required>
+
+            <label for="finca">FINCA :</label>
+            <input type="text" id="finca" name="finca" required>
+
+            <label for="culture">CULTURE :</label>
+            <input type="text" id="culture" name="culture" required>
+
+            <label for="type">FINI/BRUT</label>
+            <input type="text" id="type" name="type" required>
+
+            <label for="coupe">COUPE :</label>
+            <input type="text" id="coupe" name="coupe" required>
+
+            <label for="superficie">SUPERFICIE :</label>
+            <input type="number" id="superficie" name="superficie" step="0.01" required min="0">
+
+            <label for="brut">BRUT :</label>
+            <input type="number" id="brut" name="brut" step="0.01" required min="0">
+
+            <label for="fini">FINI :</label>
+            <input type="number" id="fini" name="fini" step="0.01" required min="0">
+
+            <button type="button" onclick="generateReport()">Envoyer</button>
+        </form>
+
+        <!-- Zone de texte pour le rapport -->
+        <textarea id="reportArea" readonly></textarea>
+
+        <!-- Conteneur des boutons -->
+        <div class="button-container">
+            <button type="button" onclick="copyReport()">Copier le Rapport</button>
+        </div>
+    </div>
+
+    <script>
+        function generateReport() {
+            const date = document.getElementById('date').value;
+            const finca = document.getElementById('finca').value;
+            const culture = document.getElementById('culture').value;
+            const type = document.getElementById('type').value;
+            const coupe = document.getElementById('coupe').value;
+            const superficie = parseFloat(document.getElementById('superficie').value);
+            const brut = parseFloat(document.getElementById('brut').value);
+            const fini = parseFloat(document.getElementById('fini').value);
+
+            const rbrut = superficie ? brut / superficie : 0;
+            const rFini = superficie ? fini / superficie : 0;
+            const ecart = brut ? (fini * 100 / brut) - 100 : 0;
+
+            const reportText = `
+DATE : ${date}
+FINCA : ${finca}
+CEBOLLINO : ${culture}
+ ${type}
+COUPE : N° ${coupe}
+SUPERFICIE : ${superficie}
+BRUT : ${brut}
+R.BRUT : ${rbrut.toFixed(2)}
+FINI : ${fini}
+R.FINI : ${rFini.toFixed(2)}
+ÉCART : ${ecart.toFixed(2)}%
+            `.trim();
+
+            const reportArea = document.getElementById('reportArea');
+            reportArea.value = reportText;
+            reportArea.style.display = 'block';
+        }
+
+        function copyReport() {
+            const reportArea = document.getElementById('reportArea');
+            reportArea.select();
+            document.execCommand('copy');
+            alert('Le rapport a été copié dans le presse-papiers !');
+        }
+    </script>
+</body>
+</html>
