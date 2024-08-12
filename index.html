@@ -13,59 +13,93 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
+            
         }
         form {
             display: flex;
             flex-direction: column;
+            border: solid rgb(13, 9, 250) 3px;
+            border-radius: 20px;
+            background-color: #18b9ac;
         }
         label {
             margin-bottom: 10px;
             font-weight: bold;
+            margin: 10px;
+            
         }
         input, select {
             padding: 8px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            margin: 10px;
         }
         button {
             padding: 10px;
-            background-color: #007bff;
+            background-color: #000000;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 25px;
             cursor: pointer;
-            margin-top: 10px;
+            margin: 10px;
+            width: 45%;
+            align-items: center;
+            justify-items: center;
         }
         button:hover {
             background-color: #0056b3;
         }
         textarea {
-            width: 100%;
+            width: 97%;
             height: 200px;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            margin-top: 20px;
+            border: 3px solid rgb(13, 9, 250);
+            border-radius: 25px;
+            margin-top: 5px;
             display: none;
             white-space: pre-wrap;
             font-family: monospace; /* Pour une meilleure lisibilité du texte formaté */
+            background-color: #18b9ac;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            
         }
         .button-container {
             margin-top: 10px;
+            justify-content: space-between;
+            align-items: center;
+            width: 99%;
+            border: rgb(13, 9, 250) solid 3px ;
+            border-radius: 20px;
+            background-color: #18b9ac;
+            
+
         }
+        .container h1{
+            top: 20px;
+            text-align: center;
+            color: #0011ff;
+            border: rgb(13, 9, 250) solid 3px;
+            background-color: #18b9ac;
+            border-radius: 20px;
+
+
+        }
+
     </style>
 </head>
 <body>
+    
     <div class="container">
+        <h1>Powered By Yassin</h1>
         <form id="infoForm">
             <label for="date">DATE :</label>
             <input type="date" id="date" name="date" required>
 
-            <label for="finca">FINCA :</label>
-            <input type="text" id="finca" name="finca" required>
+            <label style="display: none;" for="finca">FINCA :</label>
+            <input style="display: none;" type="text" id="finca" name="finca" required>
 
-            <label for="culture">CULTURE :</label>
+            <label for="culture">PARCELLE :</label>
             <input type="text" id="culture" name="culture" required>
 
             <label for="type">FINI/BRUT</label>
@@ -83,16 +117,18 @@
             <label for="fini">FINI :</label>
             <input type="number" id="fini" name="fini" step="0.01" required min="0">
 
-            <button type="button" onclick="generateReport()">Envoyer</button>
+            
+            
         </form>
-
+        <div class="button-container">
+            <button type="button" onclick="generateReport()">Envoyer</button>
+            <button type="button" onclick="copyReport()">Copier le Rapport</button>
+        </div>
         <!-- Zone de texte pour le rapport -->
         <textarea id="reportArea" readonly></textarea>
 
         <!-- Conteneur des boutons -->
-        <div class="button-container">
-            <button type="button" onclick="copyReport()">Copier le Rapport</button>
-        </div>
+        
     </div>
 
     <script>
@@ -108,20 +144,19 @@
 
             const rbrut = superficie ? brut / superficie : 0;
             const rFini = superficie ? fini / superficie : 0;
-            const ecart = brut ? (fini * 100 / brut) - 100 : 0;
-
+            const ecart = brut ? ((brut-fini)*100/brut) : 0;
             const reportText = `
-DATE : ${date}
-FINCA : ${finca}
-CEBOLLINO : ${culture}
- ${type}
-COUPE : N° ${coupe}
-SUPERFICIE : ${superficie}
-BRUT : ${brut}
-R.BRUT : *${rbrut.toFixed(2)} kg/h*
-FINI : ${fini}
-R.FINI : *${rFini.toFixed(2)} kg/h*
-ÉCART : *${ecart.toFixed(2)}%*
+DATE   : ${date}
+FINCA  : 20
+CEBOLLINO   : ${culture}
+       *${type}*
+        ${coupe}
+SUPERFICIE: ${superficie} M²
+BRUT      : ${brut} KG
+R.BRUT    : *${rbrut.toFixed(3)} KG/M²*
+FINI      : ${fini} KG
+R.FINI    : *${rFini.toFixed(3)} KG/M²*
+ÉCART     : *${ecart.toFixed(0)}%*
             `.trim();
 
             const reportArea = document.getElementById('reportArea');
